@@ -17,8 +17,8 @@ resource "google_compute_instance" "default" {
     }
   }
 
- metadata = {
-  ssh-keys = "rocky:${file("/home/kranthikumarkattatech/.ssh/my_new_vm_key.pub")}"
+metadata = {
+  ssh-keys = "rocky:${file("/home/kranthikumarkattatech/jenkins_ssh_keys/my_new_vm_key.pub")}"
 }
 
   // Startup script
