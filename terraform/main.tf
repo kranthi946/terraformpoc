@@ -17,27 +17,21 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  metadata = {
-    ssh-keys = "kranthikumarkattatech:${file("${path.module}/ssh_keys/my_new_vm_key.pub")}"
-  }
-
-  metadata_startup_script = "sudo apt-get update && sudo apt-get install apache2 -y && echo '<!doctype html><html><body><h1>Avenue Code is the leading software consulting agency focused on delivering end-to-end development solutions for digital transformation across every vertical. We pride ourselves on our technical acumen, our collaborative problem-solving ability, and the warm professionalism of our teams.!</h1></body></html>' | sudo tee /var/www/html/index.html"
-
-  tags = ["http-server"]
+    metadata_startup_script = "sudo apt-get update && sudo apt-get install apache2 -y && echo '<!doctype html><html><body><h1>Avenue Code is the leading software consulting agency focused on delivering end-to-end development solutions for digital transformation across every vertical. We pride ourselves on our technical acumen, our collaborative problem-solving ability, and the warm professionalism of our teams.!</h1></body></html>' | sudo tee /var/www/html/index.html"
+    // Apply the firewall rule to allow external IPs to access this instance
+    tags = ["http-server"]
 }
-
 resource "google_compute_firewall" "http-server" {
   name    = "default-allow-http-terraform"
   network = "default"
   allow {
     protocol = "tcp"
-    ports    = ["80", "8080"]
+    ports    = ["80","8080"]
   }
-
+  // Allow traffic from everywhere to instances with an http-server tag
   source_ranges = ["0.0.0.0/0"]
   target_tags   = ["http-server"]
 }
-
 output "ip" {
-  value = google_compute_instance.default.network_interface[0].access_config[0].nat_ip
+  value = "${google_compute_instance.default.network_interface.0.access_config.0.nat_ip}"
 }
