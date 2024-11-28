@@ -19,7 +19,7 @@ resource "google_compute_instance" "default" {
 
   // Inject SSH keys into the instance metadata
   metadata = {
-    ssh-keys = "rocky:${file("~/.ssh/my_new_vm_key.pub")}"  // Replace with path to your SSH public key
+   ssh-keys = "rocky:${file("/home/kranthikumarkattatech/.ssh/my_new_vm_key.pub")}"
   }
 
   // Startup script
