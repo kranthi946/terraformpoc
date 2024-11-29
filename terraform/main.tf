@@ -23,7 +23,7 @@ resource "google_compute_instance" "default" {
 
     # Create a new user and set the password
     sudo useradd -m -s /bin/bash myuser
-    echo 'myuser:your_password_here' | sudo chpasswd
+    echo 'myuser:kkkranthi' | sudo chpasswd
     EOT
 
   tags = ["http-server"]
